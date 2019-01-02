@@ -1,0 +1,124 @@
+
+* TODO Bookmarklets
+
+A bookmarklet is like a tiny Add-on for your browser. You drag it into
+your bookmark-bar and when you click it, it does something.
+
+[[file:install.gif]]
+
+If you are using Firefox and a script-blocking Add-on (NoScript,
+uMatrix, ...) you will notice that bookmarklets do not work if scripts
+are disabled for the domain the website is on. This is a bug in
+Firefox but there is an Add-on to work arround this issue:
+[[https://addons.mozilla.org/en-US/firefox/addon/bookmarklets-context-menu/][Bookmarklets context menu]].
+
+This Add-on requiers your bookmarklets to be HTML-URL-decodable. If
+you are writing bookmarklets for your self, be aware that
+copy-n-pasting your code into a new cookie does not fully URL-encode
+your code. The =%=-sign for example stays unencoded and has to be
+replaced manually by =%25=.
+
+** Remove Sticky
+
+Removes all sticky elements from the page.
+
+*Bookmarklet:* [[javascript:(function(){%20let%20i,%20elements%20=%20document.querySelectorAll('body%20*');%20for%20(i%20=%200;%20i%20<%20elements.length;%20i++)%20{%20if(getComputedStyle(elements%5Bi%5D).position%20===%20'fixed'%20||%20getComputedStyle(elements%5Bi%5D).position%20===%20'sticky'){%20elements%5Bi%5D.parentNode.removeChild(elements%5Bi%5D);%20}%20}%20})()%20][Remove sticky (drag me into the bookmark bar)]]
+
+#+BEGIN_SRC javascript
+javascript:(function(){
+  let i, elements = document.querySelectorAll('body *');
+  for (i = 0; i < elements.length; i++) {
+    if(getComputedStyle(elements[i]).position === 'fixed'
+       || getComputedStyle(elements[i]).position === 'sticky'){
+      elements[i].parentNode.removeChild(elements[i]);
+    }
+  }
+})()
+#+END_SRC
+
+** Scroll Better with the Space-Bar
+
+When scrolling with the space-bar sticky headers can be annoying as
+they cover up text that scrolles underneath them.
+
+This bookmarklet removes sticky content and adds a red indicator-line
+that shows, where the bottom of the page was, when you pressed space
+to scroll.
+
+[[file:space-scroll.gif]]
+
+*Bookmarklet:* [[javascript:(function(){%20let%20i,%20elements=document.querySelectorAll('body%20*');for%20(i=0;i%20<%20elements.length;i++)%20{%20if%20(getComputedStyle(elements%5Bi%5D).position%20===%20'fixed'%20||%20getComputedStyle(elements%5Bi%5D).position%20===%20'sticky')%20{%20elements%5Bi%5D.parentNode.removeChild(elements%5Bi%5D);}}let%20elem=Array.from(document.getElementsByTagName("body"))%5B0%5D.appendChild(document.createElement('div'));elem.style.width="100%25";elem.style.borderTop="1px%20solid%20red";elem.style.position="absolute";elem.style.top="0px";elem.style.opacity="0";elem.style.transition="opacity%201000ms";window.addEventListener('keydown',%20e%20=>%20{%20if(e.code%20===%20"Space"){%20elem.style.transition="";elem.style.top=(window.innerHeight%20+%20window.scrollY)%20+%20"px";elem.style.opacity="1";setTimeout(function(){%20elem.style.transition="opacity%201000ms";elem.style.opacity="0";},%20200);}});}())][Space-scroll (drag me into the bookmark bar)]]
+
+[[file:Remove%20sticky%20and%20add%20red%20scrolling-indicator.js][Source]]
+
+** Youtube - Better Livestream-Chat in Cinema-mode
+
+Arranges the video and the chat side by side. Currently only working
+with screensizes arround 1920x1080.
+
+[[file:yt-chat.gif]]
+
+*Bookmarklet:* [[javascript:(function(){%20let%20video=Array.from(document.getElementsByClassName("video-stream%20html5-main-video"))%5B0%5D;let%20chat=document.getElementById("chat");chat.style.position='fixed';chat.style.top='60px';chat.style.right='5px';chat.style.height='754.1px';video.style.left='57.889px';})()][Better YT-Chat (drag me into the bookmark bar)]]
+
+#+BEGIN_SRC javascript
+javascript:(function(){
+    let video = Array.from(document.getElementsByClassName("video-stream html5-main-video"))[0];
+    let chat = document.getElementById("chat");
+    chat.style.position = 'fixed';
+    chat.style.top = '60px';
+    chat.style.right = '5px';
+    chat.style.height = '754.1px';
+    video.style.left = '57.889px';
+})()
+#+END_SRC
+
+** HTML5-Speed
+
+Regulates the playback-speed of the video. Works on all HTML5-Videos
+(e.g. Youtube).
+
+*** Faster
+
+*Bookmarklet:* [[javascript:(function(){Array.from(document.getElementsByTagName('video')).forEach(vid => vid.playbackRate *= 1.25);}())][+ (drag me into the bookmark bar)]]
+
+#+BEGIN_SRC javascript
+  javascript:(function(){
+      Array.from(document.getElementsByTagName('video'))
+          .forEach(vid => vid.playbackRate *= 1.25);
+  }())
+#+END_SRC
+
+*** Slower
+
+*Bookmarklet:* [[javascript:(function(){Array.from(document.getElementsByTagName('video')).forEach(vid => vid.playbackRate *=0.75);}())][- (drag me into the bookmark bar)]]
+
+#+BEGIN_SRC javascript
+  javascript:(function(){
+      Array.from(document.getElementsByTagName('video'))
+          .forEach(vid => vid.playbackRate *= 0.75);
+  }())
+#+END_SRC
+
+*** Reset
+
+*Bookmarklet:* [[javascript:(function(){Array.from(document.getElementsByTagName('video')).forEach(vid => vid.playbackRate =0);}())][0 (drag me into the bookmark bar)]]
+
+#+BEGIN_SRC javascript
+  javascript:(function(){
+      Array.from(document.getElementsByTagName('video'))
+          .forEach(vid => vid.playbackRate = 0);
+  }())
+#+END_SRC
+
+** Speedread
+
+After activating the bookmarklet one can select text on the page and
+it will be displayed word by word (roughly). The bookmarklet uses the
+"Optimal Recognition Point" for displaying the words at the right
+position.
+
+[[file:./speadread.gif]]
+
+*Bookmarklet:* [[javascript:(function(){%20wpm=250;let%20gtimeout=0;let%20inner;let%20outer;document.addEventListener('selectionchange',%20()%20=>%20{%20let%20term=window.getSelection().toString();stop();if(term.length%20<%2010){%20return;}%20if(!outer){%20outer=Array.from(document.getElementsByTagName('body'))%5B0%5D.appendChild(document.createElement('div'));inner=outer.appendChild(document.createElement('div'));outer.style.position='fixed';outer.style.top='calc(50%2525%20-%2050px)';outer.style.margin='auto';outer.style.height='100px';outer.style.minWidth='800px';outer.style.background='#f5f5f5';outer.style.left='calc(50%2525%20-%20400px)';outer.style.fontSize='70px';outer.style.textAlign='center';outer.style.lineHeight='100px';outer.style.flexDirection='row';outer.style.justifyContent='center';outer.style.alignItems='center';outer.style.display='flex';outer.style.borderTop='3px%20solid';outer.style.borderBottom='3px%20solid';outer.style.opacity='0.97';let%20temp=outer.appendChild(document.createElement('div'));temp.style.width='3px';temp.style.background='black';temp.style.height='7px';temp.style.position='absolute';temp.style.top='0px';temp.style.left='50%2525';temp=outer.appendChild(document.createElement('div'));temp.style.width='3px';temp.style.background='black';temp.style.height='7px';temp.style.position='absolute';temp.style.bottom='0px';temp.style.left='50%2525';let%20temp1=outer.appendChild(document.createElement('div'));temp1.style.position='absolute';temp1.style.left='10px';temp1.style.flexDirection='row';temp1.style.display='flex';temp1.style.alignItems='center';temp1.style.top='5px';temp=temp1.appendChild(document.createElement('button'));temp.style.background='#eee';temp.style.color='black';temp.style.border='none';temp.style.fontSize='10px';temp.innerHTML='-';temp.addEventListener('click',%20()%20=>%20{%20wpm%20-=%2010;wpmCounter.innerHTML=wpm%20});let%20wpmCounter=temp1.appendChild(document.createElement('div'));wpmCounter.style.fontSize='10px';wpmCounter.style.lineHeight='10px';wpmCounter.style.height='10px';wpmCounter.style.margin='10px';wpmCounter.innerHTML=wpm;temp=temp1.appendChild(document.createElement('button'));temp.style.background='#eee';temp.style.color='black';temp.style.border='none';temp.style.fontSize='10px';temp.innerHTML='+';temp.addEventListener('click',%20()%20=>%20{%20wpm%20+=%2010;wpmCounter.innerHTML=wpm%20});inner.style.display='inline-block';inner.style.transform='translate(8%2525)';inner.innerHTML='3';}%20setTimeout(()%20=>%20inner.innerHTML='2',%20200);setTimeout(()%20=>%20inner.innerHTML='1',%20400);gtimeout=setTimeout(()%20=>%20nextWord(term.split('%20').reverse()),%20600);});let%20nextWord=(words)%20=>%20{%20let%20next=words.pop();if(next.length%20<%203%20&&%20words.length%20&&%20words%5Bwords.length%20-%201%5D.length%20<%206){%20next%20+=%20'%20'%20+%20words.pop();}%20inner.innerHTML=next;let%20duration=(1000%20/%20(wpm%20/%2060))%20*%20((next.length%20/%205%20-%201)%20*%200.5%20+%201);let%20timeout=setTimeout(()%20=>%20{%20if(words.length){%20if(timeout%20!==%20gtimeout){%20return;}%20nextWord(words);}%20else%20{%20stop();}%20},%20duration);gtimeout=timeout;};stop=()%20=>%20{%20clearTimeout(gtimeout);gtimeout=0;if(outer){%20try{%20Array.from(document.getElementsByTagName('body'))%5B0%5D.removeChild(outer);}%20catch(e){}%20outer=inner=undefined;}%20};})();][speedread (drag me into the bookmark bar)]]
+
+[[file:speedread.js][Source]]
