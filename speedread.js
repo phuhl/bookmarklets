@@ -22,12 +22,12 @@ javascript:(function(){
       outer = Array.from(document.getElementsByTagName('body'))[0].appendChild(document.createElement('div'));
       inner = outer.appendChild(document.createElement('div'));
       outer.style.position = 'fixed';
-      outer.style.top = 'calc(50%25 - 50px)';
+      outer.style.top = 'calc(50% - 50px)';
       outer.style.margin = 'auto';
       outer.style.height = '100px';
       outer.style.minWidth = '800px';
       outer.style.background = '#f5f5f5';
-      outer.style.left = 'calc(50%25 - 400px)';
+      outer.style.left = 'calc(50% - 400px)';
       outer.style.fontSize = '70px';
       outer.style.textAlign = 'center';
       outer.style.lineHeight = '100px';
@@ -45,7 +45,7 @@ javascript:(function(){
       temp.style.height = '7px';
       temp.style.position = 'absolute';
       temp.style.top = '0px';
-      temp.style.left = '50%25';
+      temp.style.left = '50%';
 
       temp = outer.appendChild(document.createElement('div'));
       temp.style.width = '3px';
@@ -53,7 +53,7 @@ javascript:(function(){
       temp.style.height = '7px';
       temp.style.position = 'absolute';
       temp.style.bottom = '0px';
-      temp.style.left = '50%25';
+      temp.style.left = '50%';
 
       let temp1 = outer.appendChild(document.createElement('div'));
       temp1.style.position = 'absolute';
@@ -87,7 +87,7 @@ javascript:(function(){
       temp.addEventListener('click', () => setWpm(10));
 
       inner.style.display = 'inline-block';
-      inner.style.transform = 'translate(8%25)';
+      inner.style.transform = 'translate(8%)';
 
       inner.innerHTML = '3';
     }
