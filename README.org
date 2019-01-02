@@ -102,7 +102,7 @@ Regulates the playback-speed of the video. Works on all HTML5-Videos
 *** Reset
 
 *Bookmarklet:* [[javascript:(function()%257BArray.from(document.getElementsByTagName('video')).forEach(vid%2520%253D%253E%2520vid.playbackRate%2520%253D0)%253B%257D())][0 (drag me into the bookmark bar)]]
-
+#+html: <a href="javascript:(function()%7BArray.from(document.getElementsByTagName('video')).forEach(vid%20%3D%3E%20vid.playbackRate%20%3D0)%3B%7D())">0</a>
 #+BEGIN_SRC javascript
   javascript:(function(){
       Array.from(document.getElementsByTagName('video'))
