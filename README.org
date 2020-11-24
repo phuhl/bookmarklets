@@ -90,12 +90,12 @@ Regulates the playback-speed of the video. Works on all HTML5-Videos
 
 *** Slower
 
-*Bookmarklet:* [[javascript:(function()%257BArray.from(document.getElementsByTagName('video')).forEach(vid%2520%253D%253E%2520vid.playbackRate%2520*%253D0.75)%253B%257D())][- (drag me into the bookmark bar)]]
+*Bookmarklet:* [[javascript:(function()%257BArray.from(document.getElementsByTagName('video')).forEach(vid%2520%253D%253E%2520vid.playbackRate%2520*%253D0.8)%253B%257D())][- (drag me into the bookmark bar)]]
 
 #+BEGIN_SRC javascript
   javascript:(function(){
       Array.from(document.getElementsByTagName('video'))
-          .forEach(vid => vid.playbackRate *= 0.75);
+          .forEach(vid => vid.playbackRate *= 0.8);
   }())
 #+END_SRC
 
